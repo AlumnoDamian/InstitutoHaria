@@ -7,6 +7,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -98,39 +99,7 @@ fun MisBotonesCursos(){
 
 }
 
-@Composable
-fun MisAsiganturasFPB1(
-    imagenAsignatura: List<Int> = listOf(
-        R.drawable.cienciasaplicadas,
-        R.drawable.comunicacionsociedad,
-        R.drawable.equiposelectricos,
-        R.drawable.mantenimiento,
-    ),
-    nombre: List<String> = listOf(
-        "Ciencias Aplicadas I",
-        "Comunicación y sociedad I",
-        "Equipos Eléctricos y Electrónicos",
-        "Instalación y mantenimiento para transmisión de datos"
-    ),
-    descripcion: List<String> = listOf(
-        "Aplicación del conocimiento científico básico a necesidades humanas y al desarrollo tecnológico.\nHoras Semanales: 6 horas\nHoras Totales: 215 horas.",
-        "Se desarrolla las habilidades y destrezas lingüísticas, además de alcanzar el nivel de precisión, claridad y fluidez requeridas, para comunicarse en su entorno.\nHoras Semanales: 6 horas\nHoras Totales: 215 horas\n",
-        "Se basa en el montaje y mantenimiento de equipos eléctricos y electrónicos\nHoras Semanales: 11 horas\nHoras Totales: 305 horas",
-        "Se administra, gestiona, instala y mantiene las redes.\nHoras Semanales: 7 horas\nHoras Totales: 217 horas"
-    )
 
-){
-
-}
-
-@Composable
-fun MyForImagesStories(imagenAsignatura: List<Int>) {
-    LazyRow(modifier = Modifier.fillMaxWidth()) {
-        items(imagenAsignatura) { imagen ->
-            MisAsiganturasFPB1(imagen)
-        }
-    }
-}
 
 /******************* GENERAL **********************/
 
@@ -295,22 +264,54 @@ fun MiFPB(inicioClick: () -> Unit, fpmClick: () -> Unit, fpsClick: () -> Unit){
             textAlign = TextAlign.Center
         )
 
-        OutlinedCard(
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surface,
-            ),
-            border = BorderStroke(2.dp, Color.Black),
-            modifier = Modifier
-                .size(width = 320.dp, height = 320.dp)
-        ) {
+    }
+}
 
-            Image(
-                painter = painterResource(id = R.drawable.cienciasaplicadas),
-                contentDescription = "fps.png"
-            )
+@Composable
+fun MisAsiganturasFPB1(
+    imagenAsignatura: List<Int> = listOf(
+        R.drawable.cienciasaplicadas,
+        R.drawable.comunicacionsociedad,
+        R.drawable.equiposelectricos,
+        R.drawable.mantenimiento,
+    ),
+    nombre: List<String> = listOf(
+        "Ciencias Aplicadas I",
+        "Comunicación y sociedad I",
+        "Equipos Eléctricos y Electrónicos",
+        "Instalación y mantenimiento para transmisión de datos"
+    ),
+    descripcion: List<String> = listOf(
+        "Aplicación del conocimiento científico básico a necesidades humanas y al desarrollo tecnológico.\nHoras Semanales: 6 horas\nHoras Totales: 215 horas.",
+        "Se desarrolla las habilidades y destrezas lingüísticas, además de alcanzar el nivel de precisión, claridad y fluidez requeridas, para comunicarse en su entorno.\nHoras Semanales: 6 horas\nHoras Totales: 215 horas\n",
+        "Se basa en el montaje y mantenimiento de equipos eléctricos y electrónicos\nHoras Semanales: 11 horas\nHoras Totales: 305 horas",
+        "Se administra, gestiona, instala y mantiene las redes.\nHoras Semanales: 7 horas\nHoras Totales: 217 horas"
+    )
 
+){
+    MisAsiganturasFPB1()
+}
+
+@Composable
+fun MiForAsignaturasFPB1(imagenAsignatura: List<Int>) {
+    LazyRow(modifier = Modifier.fillMaxWidth()) {
+        items(imagenAsignatura.size) { imagen ->
+            Box(
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.surface,
+                ),
+                border = BorderStroke(2.dp, Color.Black),
+                modifier = Modifier
+                    .size(width = 320.dp, height = 320.dp)
+            ) {
+
+                Image(
+                    painter = painterResource(id = R.drawable.cienciasaplicadas),
+                    contentDescription = "fps.png"
+                )
+
+            }
         }
-
     }
 }
 /******************* FP BASICO **********************/
