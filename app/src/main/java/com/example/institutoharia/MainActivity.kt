@@ -14,6 +14,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,12 +22,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -34,18 +32,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.VerticalAlignmentLine
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
@@ -127,26 +123,53 @@ fun MiTopBar() {
 }
 
 @Composable
-fun MiBotonPlaneate(onClick: () -> Unit, @DrawableRes imageResource: Int, contentDescription: String) {
+fun MiBotonPlaneate(onClick: () -> Unit, @DrawableRes imagenBoton: Int, contentDescription: String) {
     TextButton(
         onClick = { onClick() },
         modifier = Modifier.size(135.dp)
     ) {
         Image(
-            painter = painterResource(id = imageResource),
+            painter = painterResource(id = imagenBoton),
             contentDescription = contentDescription,
             modifier = Modifier.size(135.dp)
         )
     }
 }
+
+@Composable
+fun MiTitulo(
+    texto: String,
+    fontWeight: FontWeight,
+    textAlign: TextAlign
+) {
+    Text(
+        text = texto,
+        fontSize = 24.sp,
+        fontWeight = fontWeight,
+        textAlign = textAlign,
+        modifier = Modifier.padding(16.dp)
+    )
+}
+@Composable
+fun MiContenido(
+    texto: String,
+) {
+    Text(
+        text = texto,
+        fontSize = 16.sp,
+        modifier = Modifier.padding(start = 8.dp, end = 4.dp)
+    )
+    Spacer(modifier = Modifier.padding(16.dp))
+}
+
 /******************* GENERAL **********************/
 
 
 /******************* PRIMERA PÁGINA **********************/
 @Composable
 fun MiInicio(fpbClick: () -> Unit, fpmClick: () -> Unit, fpsClick: () -> Unit) {
-    Column (modifier = Modifier
-        .fillMaxWidth(),
+    Column (
+        modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         MiTopBar()
@@ -161,32 +184,23 @@ fun MiInicio(fpbClick: () -> Unit, fpmClick: () -> Unit, fpsClick: () -> Unit) {
 
 @Composable
 fun MiInformacionDelCentro() {
-    Spacer(modifier = Modifier.padding(16.dp))
-    Text(
-        text = "Información del centro",
-        fontSize = 24.sp,
-        fontWeight = FontWeight.Bold,
-        textAlign = TextAlign.Center
+    MiTitulo("Información del Centro", FontWeight.Bold, TextAlign.Center)
+
+    MiContenido(
+        "Dirección: C. Santiago Noda, 4, 35520 Haría, Las Palmas.\n" +
+              "Contactos: 928 30 30 14\n" +
+              "Email: 35009206@gobiernodecanarias.org.\n" +
+              "Dispone de la ESO, Bachillerato y FP Básica, Grado Medio y Superior de Informática y Comunicaciones.\n" +
+              "Cuenta con transporte escolar gratuito, turno de mañana y cafetería."
     )
-    Spacer(modifier = Modifier.padding(4.dp))
-    Text(
-        text = "Dirección: C. Santiago Noda, 4, 35520 Haría, Las Palmas.\n" +
-                "Contactos: 928 30 30 14\n" +
-                "Email: 35009206@gobiernodecanarias.org.\n" +
-                "Dispone de la ESO, Bachillerato y FP Básica, Grado Medio y Superior de Informática y Comunicaciones.\n" +
-                "Cuenta con transporte escolar gratuito, turno de mañana y cafetería.",
-        fontSize = 16.sp,
-        modifier = Modifier.padding(start = 8.dp, end = 4.dp)
-    )
-    Spacer(modifier = Modifier.padding(16.dp))
 }
 
 @Composable
 fun MisBotonesInicio(fpbClick: () -> Unit, fpmClick: () -> Unit, fpsClick: () -> Unit) {
     Row {
-        MiBotonPlaneate(onClick = fpbClick, imageResource = R.drawable.fpb, contentDescription = "fpb.png")
-        MiBotonPlaneate(onClick = fpmClick, imageResource = R.drawable.fpm, contentDescription = "fpm.png")
-        MiBotonPlaneate(onClick = fpsClick, imageResource = R.drawable.fps, contentDescription = "fps.png")
+        MiBotonPlaneate(onClick = fpbClick, imagenBoton = R.drawable.fpb, contentDescription = "fpb.png")
+        MiBotonPlaneate(onClick = fpmClick, imagenBoton = R.drawable.fpm, contentDescription = "fpm.png")
+        MiBotonPlaneate(onClick = fpsClick, imagenBoton = R.drawable.fps, contentDescription = "fps.png")
     }
 }
 /******************* PRIMERA PÁGINA **********************/
@@ -196,8 +210,7 @@ fun MisBotonesInicio(fpbClick: () -> Unit, fpmClick: () -> Unit, fpsClick: () ->
 @Composable
 fun MiFPB(inicioClick: () -> Unit, fpmClick: () -> Unit, fpsClick: () -> Unit){
     LazyColumn (
-        modifier = Modifier
-            .fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         item{
@@ -259,43 +272,11 @@ fun MiInformacionYRequisitosFPB(){
 
 @Composable
 fun MisBotonesFPB(inicioClick: () -> Unit, fpmClick: () -> Unit, fpsClick: () -> Unit){
-
     Row {
-        TextButton(
-            onClick = { inicioClick() },
-            modifier = Modifier
-                .size(125.dp)
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.inicio),
-                contentDescription = "fpb.png",
-                modifier = Modifier.fillMaxSize(125f)
-            )
-        }
-
-        TextButton(
-            onClick = { fpmClick() },
-            modifier = Modifier
-                .size(125.dp)
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.fpm),
-                contentDescription = "fpm.png",
-            )
-        }
-
-        TextButton(
-            onClick = { fpsClick() },
-            modifier = Modifier
-                .size(125.dp)
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.fps),
-                contentDescription = "fps.png",
-            )
-        }
+        MiBotonPlaneate(onClick = inicioClick, imagenBoton = R.drawable.inicio, contentDescription = "inicio.png")
+        MiBotonPlaneate(onClick = fpmClick, imagenBoton = R.drawable.fpm, contentDescription = "fpm.png")
+        MiBotonPlaneate(onClick = fpsClick, imagenBoton = R.drawable.fps, contentDescription = "fps.png")
     }
-
 }
 
 @Composable
@@ -333,28 +314,34 @@ fun MiForAsignaturasFPB1(imagenAsignatura: List<Int>, nombre: List<String>, desc
     var expandirBox by remember {mutableStateOf(-1)}
 
     Text(
-        text = "Asignaturas",
+        text = "Asignaturas del Primer Año",
         fontSize = 24.sp,
         fontWeight = FontWeight.Bold,
         textAlign = TextAlign.Center
     )
 
     LazyRow(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
     ) {
         items(imagenAsignatura.size) { cadaItem ->
-            Column (modifier = Modifier.padding(4.dp)) {
-                Box(
+            Box(
+                modifier = Modifier
+                    .width(320.dp)
+                    .clickable {
+                        expandirBox = if (expandirBox == cadaItem) -1 else cadaItem
+                    }
+                    .border(2.dp, Color.Black)
+            ) {
+                Column (
                     modifier = Modifier
-                        .size(320.dp)
-                        .clickable {
-                            expandirBox = if (expandirBox == cadaItem) -1 else cadaItem
-                        }
-                        .border(2.dp, Color.Black)
+                        .fillMaxSize()
+                        .padding(8.dp)
                 ) {
                     Image(
                         painter = painterResource(id = imagenAsignatura[cadaItem]),
-                        contentDescription = "fps.png"
+                        contentDescription = nombre[cadaItem]
                     )
 
                     if (expandirBox == cadaItem){
@@ -366,7 +353,7 @@ fun MiForAsignaturasFPB1(imagenAsignatura: List<Int>, nombre: List<String>, desc
                         Spacer(modifier = Modifier.size(4.dp))
                         Text(
                             text = descripcion[cadaItem],
-                            fontWeight = FontWeight.Bold
+                            modifier = Modifier.fillMaxWidth()
                         )
                         Spacer(modifier = Modifier.size(4.dp))
                     }
@@ -424,52 +411,11 @@ fun MiInformacionYRequisitosFPM(){
 
 @Composable
 fun MisBotonesFPM(fpbClick: () -> Unit, inicioClick: () -> Unit, fpsClick: () -> Unit){
-
-    Text(
-        text = "Asignaturas",
-        fontSize = 24.sp,
-        fontWeight = FontWeight.Bold,
-        textAlign = TextAlign.Center
-    )
-
     Row {
-
-        TextButton(
-            onClick = { fpbClick() },
-            modifier = Modifier
-                .size(125.dp)
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.fpb),
-                contentDescription = "fpb.png",
-                modifier = Modifier.fillMaxSize(125f)
-            )
-        }
-
-        TextButton(
-            onClick = { inicioClick() },
-            modifier = Modifier
-                .size(125.dp)
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.inicio),
-                contentDescription = "inicio.png",
-                modifier = Modifier.fillMaxSize(125f)
-            )
-        }
-
-        TextButton(
-            onClick = { fpsClick() },
-            modifier = Modifier
-                .size(125.dp)
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.fps),
-                contentDescription = "fps.png",
-            )
-        }
+        MiBotonPlaneate(onClick = fpbClick, imagenBoton = R.drawable.fpb, contentDescription = "fpb.png")
+        MiBotonPlaneate(onClick = inicioClick, imagenBoton = R.drawable.inicio, contentDescription = "inicio.png")
+        MiBotonPlaneate(onClick = fpsClick, imagenBoton = R.drawable.fps, contentDescription = "fps.png")
     }
-
 }
 
 @Composable
@@ -506,22 +452,35 @@ fun MiForAsignaturasFPM1(imagenAsignatura: List<Int>, nombre: List<String>, desc
 
     var expandirBox by remember {mutableStateOf(-1)}
 
+    Text(
+        text = "Asignaturas del Primer Año",
+        fontSize = 24.sp,
+        fontWeight = FontWeight.Bold,
+        textAlign = TextAlign.Center
+    )
+
     LazyRow(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
     ) {
         items(imagenAsignatura.size) { cadaItem ->
-            Column (modifier = Modifier.padding(4.dp)) {
-                Box(
+            Box(
+                modifier = Modifier
+                    .width(320.dp)
+                    .clickable {
+                        expandirBox = if (expandirBox == cadaItem) -1 else cadaItem
+                    }
+                    .border(2.dp, Color.Black)
+            ) {
+                Column (
                     modifier = Modifier
-                        .size(320.dp)
-                        .clickable {
-                            expandirBox = if (expandirBox == cadaItem) -1 else cadaItem
-                        }
-                        .border(2.dp, Color.Black)
+                        .fillMaxSize()
+                        .padding(8.dp)
                 ) {
                     Image(
                         painter = painterResource(id = imagenAsignatura[cadaItem]),
-                        contentDescription = "fps.png"
+                        contentDescription = nombre[cadaItem]
                     )
 
                     if (expandirBox == cadaItem){
@@ -533,7 +492,7 @@ fun MiForAsignaturasFPM1(imagenAsignatura: List<Int>, nombre: List<String>, desc
                         Spacer(modifier = Modifier.size(4.dp))
                         Text(
                             text = descripcion[cadaItem],
-                            fontWeight = FontWeight.Bold
+                            modifier = Modifier.fillMaxWidth()
                         )
                         Spacer(modifier = Modifier.size(4.dp))
                     }
@@ -591,51 +550,11 @@ fun MiInformacionYRequisitosFPS(){
 
 @Composable
 fun MisBotonesFPS(fpbClick: () -> Unit, fpmClick: () -> Unit, inicioClick: () -> Unit){
-
-    Text(
-        text = "Asignaturas",
-        fontSize = 24.sp,
-        fontWeight = FontWeight.Bold,
-        textAlign = TextAlign.Center
-    )
-
     Row {
-
-        TextButton(
-            onClick = { fpbClick() },
-            modifier = Modifier
-                .size(125.dp)
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.fpb),
-                contentDescription = "fpb.png",
-                modifier = Modifier.fillMaxSize(125f)
-            )
-        }
-
-        TextButton(
-            onClick = { fpmClick() },
-            modifier = Modifier
-                .size(125.dp)
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.fpm),
-                contentDescription = "fpm.png",
-            )
-        }
-
-        TextButton(
-            onClick = { inicioClick() },
-            modifier = Modifier
-                .size(125.dp)
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.inicio),
-                contentDescription = "inicio.png",
-            )
-        }
+        MiBotonPlaneate(onClick = fpbClick, imagenBoton = R.drawable.fpb, contentDescription = "fpb.png")
+        MiBotonPlaneate(onClick = fpmClick, imagenBoton = R.drawable.fpm, contentDescription = "fpm.png")
+        MiBotonPlaneate(onClick = inicioClick, imagenBoton = R.drawable.inicio, contentDescription = "inicio.png")
     }
-
 }
 
 @Composable
@@ -672,22 +591,35 @@ fun MiForAsignaturasFPS1(imagenAsignatura: List<Int>, nombre: List<String>, desc
 
     var expandirBox by remember {mutableStateOf(-1)}
 
+    Text(
+        text = "Asignaturas del Primer Año",
+        fontSize = 24.sp,
+        fontWeight = FontWeight.Bold,
+        textAlign = TextAlign.Center
+    )
+
     LazyRow(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
     ) {
         items(imagenAsignatura.size) { cadaItem ->
-            Column (modifier = Modifier.padding(4.dp)) {
-                Box(
+            Box(
+                modifier = Modifier
+                    .width(320.dp)
+                    .clickable {
+                        expandirBox = if (expandirBox == cadaItem) -1 else cadaItem
+                    }
+                    .border(2.dp, Color.Black)
+            ) {
+                Column (
                     modifier = Modifier
-                        .size(320.dp)
-                        .clickable {
-                            expandirBox = if (expandirBox == cadaItem) -1 else cadaItem
-                        }
-                        .border(2.dp, Color.Black)
+                        .fillMaxSize()
+                        .padding(8.dp)
                 ) {
                     Image(
                         painter = painterResource(id = imagenAsignatura[cadaItem]),
-                        contentDescription = "fps.png"
+                        contentDescription = nombre[cadaItem]
                     )
 
                     if (expandirBox == cadaItem){
@@ -699,7 +631,7 @@ fun MiForAsignaturasFPS1(imagenAsignatura: List<Int>, nombre: List<String>, desc
                         Spacer(modifier = Modifier.size(4.dp))
                         Text(
                             text = descripcion[cadaItem],
-                            fontWeight = FontWeight.Bold
+                            modifier = Modifier.fillMaxWidth()
                         )
                         Spacer(modifier = Modifier.size(4.dp))
                     }
