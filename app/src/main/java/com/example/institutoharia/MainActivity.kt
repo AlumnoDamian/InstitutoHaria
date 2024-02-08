@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -23,6 +24,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
@@ -37,6 +39,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.VerticalAlignmentLine
 import androidx.compose.ui.platform.LocalContext
@@ -55,14 +58,14 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             InstitutoHariaTheme {
-                MyApp()
+                MiApp()
             }
         }
     }
 }
 
 @Composable
-fun MyApp() {
+fun MiApp() {
     var shouldShowOnboarding by rememberSaveable { mutableStateOf(0) }
 
     if (shouldShowOnboarding == 0) {
@@ -122,13 +125,26 @@ fun MiTopBar() {
         )
     }
 }
+
+@Composable
+fun MiBotonPlaneate(onClick: () -> Unit, @DrawableRes imageResource: Int, contentDescription: String) {
+    TextButton(
+        onClick = { onClick() },
+        modifier = Modifier.size(135.dp)
+    ) {
+        Image(
+            painter = painterResource(id = imageResource),
+            contentDescription = contentDescription,
+            modifier = Modifier.size(135.dp)
+        )
+    }
+}
 /******************* GENERAL **********************/
 
 
 /******************* PRIMERA PÁGINA **********************/
 @Composable
 fun MiInicio(fpbClick: () -> Unit, fpmClick: () -> Unit, fpsClick: () -> Unit) {
-
     Column (modifier = Modifier
         .fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -138,71 +154,39 @@ fun MiInicio(fpbClick: () -> Unit, fpmClick: () -> Unit, fpsClick: () -> Unit) {
             painter = painterResource(id = R.drawable.centro_menu_1),
             contentDescription = "centro_menu_1.png"
         )
+        MiInformacionDelCentro()
+        MisBotonesInicio(fpbClick, fpmClick, fpsClick)
+    }
+}
 
-        Spacer(modifier = Modifier.padding(4.dp))
+@Composable
+fun MiInformacionDelCentro() {
+    Spacer(modifier = Modifier.padding(16.dp))
+    Text(
+        text = "Información del centro",
+        fontSize = 24.sp,
+        fontWeight = FontWeight.Bold,
+        textAlign = TextAlign.Center
+    )
+    Spacer(modifier = Modifier.padding(4.dp))
+    Text(
+        text = "Dirección: C. Santiago Noda, 4, 35520 Haría, Las Palmas.\n" +
+                "Contactos: 928 30 30 14\n" +
+                "Email: 35009206@gobiernodecanarias.org.\n" +
+                "Dispone de la ESO, Bachillerato y FP Básica, Grado Medio y Superior de Informática y Comunicaciones.\n" +
+                "Cuenta con transporte escolar gratuito, turno de mañana y cafetería.",
+        fontSize = 16.sp,
+        modifier = Modifier.padding(start = 8.dp, end = 4.dp)
+    )
+    Spacer(modifier = Modifier.padding(16.dp))
+}
 
-        Text(
-            text = "Información del centro",
-            fontSize = 24.sp,
-            fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.Center
-        )
-
-        Text(
-            buildAnnotatedString {
-                withStyle(style = SpanStyle( fontSize = 16.sp)){
-                    append(
-                        "Dirección: C. Santiago Noda, 4, 35520 Haría, Las Palmas.\n" +
-                        "Contactos: 928 30 30 14\n" +
-                        "Email: 35009206@gobiernodecanarias.org.\n" +
-                        "Dispone de la ESO, Bachillerato y FP Básica, Grado Medio y Superior de Informática y Comunicaciones.\n" +
-                        "Cuenta con transporte escolar gratuito, turno de mañana y cafetería."
-                    )
-                }
-            },
-            modifier = Modifier.padding(start = 14.dp, end = 7.dp, top = 7.dp),
-        )
-
-        Row {
-            Column {
-                TextButton(
-                    onClick = { fpbClick() },
-                    modifier = Modifier
-                        .size(125.dp)
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.fpb),
-                        contentDescription = "fpb.png",
-                    )
-                }
-            }
-            
-            Column {
-                TextButton(
-                    onClick = { fpmClick() },
-                    modifier = Modifier
-                        .size(125.dp)
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.fpm),
-                        contentDescription = "fpm.png",
-                    )
-                }
-            }
-            
-            Column {
-                TextButton(
-                    onClick = { fpsClick() },
-                    modifier = Modifier
-                        .size(125.dp)
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.fps),
-                        contentDescription = "fps.png",
-                    )
-                }
-            }
-        }
+@Composable
+fun MisBotonesInicio(fpbClick: () -> Unit, fpmClick: () -> Unit, fpsClick: () -> Unit) {
+    Row {
+        MiBotonPlaneate(onClick = fpbClick, imageResource = R.drawable.fpb, contentDescription = "fpb.png")
+        MiBotonPlaneate(onClick = fpmClick, imageResource = R.drawable.fpm, contentDescription = "fpm.png")
+        MiBotonPlaneate(onClick = fpsClick, imageResource = R.drawable.fps, contentDescription = "fps.png")
     }
 }
 /******************* PRIMERA PÁGINA **********************/
@@ -211,7 +195,6 @@ fun MiInicio(fpbClick: () -> Unit, fpmClick: () -> Unit, fpsClick: () -> Unit) {
 /******************* FP BASICO **********************/
 @Composable
 fun MiFPB(inicioClick: () -> Unit, fpmClick: () -> Unit, fpsClick: () -> Unit){
-
     LazyColumn (
         modifier = Modifier
             .fillMaxWidth(),
@@ -228,42 +211,56 @@ fun MiFPB(inicioClick: () -> Unit, fpmClick: () -> Unit, fpsClick: () -> Unit){
 
 @Composable
 fun MiInformacionYRequisitosFPB(){
+    OutlinedCard (
+        border = BorderStroke(2.dp, Color.Black),
+        modifier = Modifier.padding(12.dp)
+    ) {
+        Spacer(modifier = Modifier.padding(8.dp))
+        Text(
+            text = "Información del Ciclo",
+            fontSize = 24.sp,
+            fontWeight = FontWeight.Bold,
+            textAlign = TextAlign.Center
+        )
 
-    Spacer(modifier = Modifier.padding(8.dp))
+        Text(
+            buildAnnotatedString {
+                withStyle(style = SpanStyle(fontSize = 16.sp)) {
+                    append(
+                        "Tiene una duración de 2000 horas totales.\n" +
+                                "Se aprende montaje de equipos en sistemas microinformáticos y redes de transmisión de datos, operaciones auxiliares en montaje y mantenimiento de sistemas informáticos, realizar operaciones para el almacenamiento y transporte de sistemas, periféricos y consumibles; y por último realizar comprobaciones rutinarias de verificación en el montaje\n"
+                    )
+                }
+            },
+            modifier = Modifier.padding(16.dp),
+        )
 
-    Text(
-        text = "Información del Ciclo",
-        fontSize = 24.sp,
-        fontWeight = FontWeight.Bold,
-        textAlign = TextAlign.Center
-    )
+        Spacer(modifier = Modifier.padding(8.dp))
+        Text(
+            text = "Requisitos del Ciclo",
+            fontSize = 24.sp,
+            fontWeight = FontWeight.Bold,
+            textAlign = TextAlign.Center
+        )
 
-    Text(
-        buildAnnotatedString {
-            withStyle(style = SpanStyle(fontSize = 16.sp)) {
-                append(
-                    "Tiene una duración de 2000 horas totales.\n" +
-                            "Se aprende montaje de equipos en sistemas microinformáticos y redes de transmisión de datos, operaciones auxiliares en montaje y mantenimiento de sistemas informáticos, realizar operaciones para el almacenamiento y transporte de sistemas, periféricos y consumibles; y por último realizar comprobaciones rutinarias de verificación en el montaje\n"
-                )
-            }
-        },
-        modifier = Modifier.padding(16.dp),
-    )
-
+        Text(
+            buildAnnotatedString {
+                withStyle(style = SpanStyle(fontSize = 16.sp)) {
+                    append(
+                        "Tiene una duración de 2000 horas totales.\n" +
+                                "Se aprende montaje de equipos en sistemas microinformáticos y redes de transmisión de datos, operaciones auxiliares en montaje y mantenimiento de sistemas informáticos, realizar operaciones para el almacenamiento y transporte de sistemas, periféricos y consumibles; y por último realizar comprobaciones rutinarias de verificación en el montaje\n"
+                    )
+                }
+            },
+            modifier = Modifier.padding(16.dp),
+        )
+    }
 }
 
 @Composable
 fun MisBotonesFPB(inicioClick: () -> Unit, fpmClick: () -> Unit, fpsClick: () -> Unit){
 
-    Text(
-        text = "Asignaturas",
-        fontSize = 24.sp,
-        fontWeight = FontWeight.Bold,
-        textAlign = TextAlign.Center
-    )
-
     Row {
-
         TextButton(
             onClick = { inicioClick() },
             modifier = Modifier
@@ -334,6 +331,13 @@ fun MisAsiganturasFPB1(
 fun MiForAsignaturasFPB1(imagenAsignatura: List<Int>, nombre: List<String>, descripcion: List<String>) {
 
     var expandirBox by remember {mutableStateOf(-1)}
+
+    Text(
+        text = "Asignaturas",
+        fontSize = 24.sp,
+        fontWeight = FontWeight.Bold,
+        textAlign = TextAlign.Center
+    )
 
     LazyRow(
         modifier = Modifier.fillMaxWidth()
@@ -450,6 +454,7 @@ fun MisBotonesFPM(fpbClick: () -> Unit, inicioClick: () -> Unit, fpsClick: () ->
             Image(
                 painter = painterResource(id = R.drawable.inicio),
                 contentDescription = "inicio.png",
+                modifier = Modifier.fillMaxSize(125f)
             )
         }
 
